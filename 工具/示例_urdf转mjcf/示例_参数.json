@@ -1,0 +1,4 @@
+{
+  "关节": { "joint1": { "armature": 0.001458, "damping": 0.05, "frictionloss": 0.02 } },
+  "电机": { "joint1": { "gear": 9.0, "Kt": 0.945, "Ke": 0.945, "R": 0.85 } }
+}

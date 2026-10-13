@@ -1,0 +1,30 @@
+{
+  "_说明": "项目索引（给人看的对照表，不是外壳运行必需的）。外壳按每个项目文件里的 `模型` 字段反查。",
+  "项目": [
+    {
+      "项目": "UR5e_基础PD",
+      "模型": "模型/universal_robots_ur5e/ur5e_torque.xml",
+      "显示名": "Universal Robots UR5e"
+    },
+    {
+      "项目": "UR10e_基础PD",
+      "模型": "模型/universal_robots_ur10e/ur10e_torque.xml",
+      "显示名": "Universal Robots UR10e"
+    },
+    {
+      "项目": "xArm7_基础PD",
+      "模型": "模型/ufactory_xarm7/xarm7_torque.xml",
+      "显示名": "xArm7"
+    },
+    {
+      "项目": "Panda_基础PD",
+      "模型": "模型/franka_emika_panda/panda_torque.xml",
+      "显示名": "Franka Emika Panda"
+    },
+    {
+      "项目": "iiwa14_基础PD",
+      "模型": "模型/kuka_iiwa_14/iiwa14_torque.xml",
+      "显示名": "KUKA LBR iiwa 14"
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+implot StyleVar 在本机绑定（mujoco 3.13.0）的安全矩阵 —— 逐项真机实测（每项推入 30 帧再弹出）
+测法：.venv/bin/python /tmp/探针implot样式.py <项名>；退出码 0=安全，139=段错误
+日期：2026-09-17
+
+样式项            退出码
+-------------------------------------
+AnnotationPadding    0
+DigitalPadding       139
+DigitalSpacing       139
+FitPadding           0
+LabelPadding         0
+LegendInnerPadding   0
+LegendPadding        0
+LegendSpacing        139
+MajorGridSize        139
+MajorTickLen         139
+MajorTickSize        139
+MinorAlpha           0
+MinorGridSize        139
+MinorTickLen         139
+MinorTickSize        139
+MousePosPadding      0
+PlotBorderSize       0
+PlotDefaultSize      0
+PlotMinSize          0
+PlotPadding          0
+
+★ 结论：implot 的 StyleVar（曲线图框形状）在本机绑定里**不可用** ——
+  20 项里有 9 项会直接段错误（Wild address 写坏内存），且崩溃项与传入类型无关
+  （MajorGridSize/LegendSpacing 传 float 也崩），说明绑定里的枚举值与实际 .so 的
+  ImPlotStyleVar 枚举不一致 → 越界索引 → GetPlotStyleVarPtr 算出野指针。
+  → 换肤只使用 implot 的**颜色**栈（16 项，实测安全），不碰 StyleVar。

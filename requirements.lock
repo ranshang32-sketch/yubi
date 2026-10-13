@@ -1,0 +1,44 @@
+# 版本锁 —— 本文件记录"实测跑通过"的确切版本
+#
+# 为什么要有它（第 3 步 C1 的一部分）：
+#   我们的外壳建立在官方的 mujoco.experimental.studio 上，官方把这个模块标为
+#   "experimental"（不保证不改，实测 11 周改过 4 次结构）。
+#   注意：那些 C++ 扩展（窗口/渲染/界面/物理，共 16 个 .so）**永远拷不走**，
+#   所以"把代码搬进自己项目"并不能消除风险；真正有效的做法是**把版本钉死 + 盯住接口**。
+#   钉版本靠这个文件；盯接口靠 `studio_shell/骨架/官方接口清单.py`（21 项自检）。
+#
+# 怎么用：
+#   检查当前环境是否与实测一致：  .venv/bin/python 工具/检查版本锁.py
+#   需要重装到这些版本：          .venv/bin/pip install -r requirements.lock
+#
+# 何时更新这个文件：
+#   只有"升级 mujoco 并跑完验收（含 --自检 21 项 + 开窗 + 控制律）"之后才更新。
+#   不要因为 pip 提示有新版本就升级 —— 官方 API 变了会直接冲击外壳。
+
+# ============================ 必需（外壳运行靠这些）============================
+mujoco==3.13.0          # ★ 核心：物理引擎 + 界面层 + 插件系统（官方完整版）
+numpy==2.2.6            # 数值计算
+glfw==2.10.2            # 窗口依赖（macOS 上必须用官方 wheel，带 libglfw.dylib）
+PyOpenGL==3.1.10        # 渲染相关
+absl-py==2.5.0          # 官方 CLI 依赖
+etils==1.13.0           # 官方工具依赖
+
+# ============================ 可选（第 4 步 D3 参数辨识用）====================
+# 这些是 mujoco[sysid] 的可选依赖；不装也能用外壳，只是 sysid 跑不了。
+# 离线包已备好：03_实施/离线依赖包/sysid/*.whl
+# 装法：.venv/bin/pip install --no-index --find-links=离线依赖包/sysid \
+#           scipy colorama imageio imageio-ffmpeg plotly pyyaml tabulate typing_extensions
+scipy                   # 优化器（辨识的核心）
+colorama                # 终端着色（sysid 导入时就要）
+imageio                 # 视频导出
+imageio-ffmpeg          # 视频编码后端
+plotly                  # 交互式图表
+pyyaml                  # 参数配置读写
+tabulate                # 结果表格
+typing_extensions       # 类型
+
+# ============================ 环境基线 ======================================
+# Python ：3.10.21（conda-forge 打包，来自 ~/miniforge3/envs/robot）
+# 系统   ：macOS 26.5 / Apple M5 / arm64
+# 装法   ：用 robot 环境的 Python 造 venv --system-site-packages，再往叠加层里装
+#          mujoco 3.13.0（详见 工具/环境重建/重建环境.sh）

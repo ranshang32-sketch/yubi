@@ -1,0 +1,407 @@
+{
+  "来源": "MuJoCo Menagerie（google-deepmind/mujoco_menagerie）",
+  "menagerie_commit": "32224735cf004df068cd29ba099459f71bcd7d21",
+  "资产基地址": "https://github.com/google-deepmind/mujoco_menagerie/releases/download/assets",
+  "代理前缀": "https://gh-proxy.com/",
+  "说明": "本清单由 工具/导入模型.py 使用；数据来自 mujoco-menagerie 官方 registry（PyPI 包）。「扭矩上限」是为了生成 <motor> 扭矩接口变体；模型自带 forcerange 时留空即可自动读取。",
+  "模型": {
+    "agilex_piper": {
+      "显示名": "AgileX PiPER",
+      "类别": "arm",
+      "许可": "MIT",
+      "资产": "agilex_piper-4f81f24a9aa3be3a.tar.xz",
+      "sha256": "1155fa98e7de74197f59148a79c7b7d2ac07766ad2d6708e1261e3e14f905f82",
+      "下载字节": 4819012,
+      "解包字节": 32975356,
+      "默认模型": "piper",
+      "场景": "scene",
+      "入口": [
+        "piper",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "arx_l5": {
+      "显示名": "ARX L5",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "arx_l5-3f17faa15187d775.tar.xz",
+      "sha256": "bb793cf8d632683c019a4bd8f7734f01ab923d7eb8117865426ccea793091db2",
+      "下载字节": 938836,
+      "解包字节": 11353212,
+      "默认模型": "arx_l5",
+      "场景": "scene",
+      "入口": [
+        "arx_l5",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "dynamixel_2r": {
+      "显示名": "Dynamixel 2R",
+      "类别": "arm",
+      "许可": "MIT",
+      "资产": "dynamixel_2r-7b6c04cb7781653e.tar.xz",
+      "sha256": "ec95fc4dd6b20f23ff5bc6448a8c6285ed3035611333210c0a8d5d6889104d52",
+      "下载字节": 838672,
+      "解包字节": 5052059,
+      "默认模型": "dynamixel_2r",
+      "场景": "scene",
+      "入口": [
+        "dynamixel_2r",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "flexiv_rizon4": {
+      "显示名": "Flexiv Robotics Rizon4",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "flexiv_rizon4-b1caeb010170bfcc.tar.xz",
+      "sha256": "db4626ec24fd8d4c1fd2ee7ff9392a8061695d352d628a90ab08178ff2cd098c",
+      "下载字节": 491236,
+      "解包字节": 4031657,
+      "默认模型": "flexiv_rizon4",
+      "场景": "scene",
+      "入口": [
+        "flexiv_rizon4",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "flexiv_rizon4s": {
+      "显示名": "Flexiv Robotics Rizon4S",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "flexiv_rizon4s-133ad9ae4b6124b0.tar.xz",
+      "sha256": "71cc744b336d093f66c1350ca2e904a36fa47b1a970850037e1f74420fe25739",
+      "下载字节": 500696,
+      "解包字节": 4097241,
+      "默认模型": "flexiv_rizon4s",
+      "场景": "scene",
+      "入口": [
+        "flexiv_rizon4s",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "franka_emika_panda": {
+      "显示名": "Franka Emika Panda",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "franka_emika_panda-3d2262eeb81ecec1.tar.xz",
+      "sha256": "d27e1c3e7c7cc161e81a1c12f2805d64676d7514d9069fe211cb1827fbae97e8",
+      "下载字节": 3088140,
+      "解包字节": 34368499,
+      "默认模型": "panda",
+      "场景": "scene",
+      "入口": [
+        "hand",
+        "mjx_hand",
+        "mjx_panda",
+        "mjx_panda_nohand",
+        "mjx_scene",
+        "mjx_single_cube",
+        "panda",
+        "panda_nohand",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "franka_fr3": {
+      "显示名": "Franka Robotics FR3",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "franka_fr3-b6cad1dd73c80694.tar.xz",
+      "sha256": "982fbab128b4a238602652b125171f383075662f137c4ea078090ec486bb7c08",
+      "下载字节": 3127948,
+      "解包字节": 33753533,
+      "默认模型": "fr3",
+      "场景": "scene",
+      "入口": [
+        "fr3",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "franka_fr3_v2": {
+      "显示名": "Franka Robotics FR3 v2",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "franka_fr3_v2-91c7e8aaf77d7851.tar.xz",
+      "sha256": "62eb27a498fa2cf3c3b711c64c4482f12538c099d19fff740ce8e7714e2760c9",
+      "下载字节": 2984988,
+      "解包字节": 36166444,
+      "默认模型": "fr3v2",
+      "场景": "scene",
+      "入口": [
+        "fr3v2",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "i2rt_yam": {
+      "显示名": "Yet Another Manipulator (YAM)",
+      "类别": "arm",
+      "许可": "MIT",
+      "资产": "i2rt_yam-79c049c37b713334.tar.xz",
+      "sha256": "6db5e9762c029bf77f1961e8df0d5b6e148b85fc787c9ff7ace03c3caad1a227",
+      "下载字节": 1142812,
+      "解包字节": 5245873,
+      "默认模型": "yam",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "yam"
+      ],
+      "扭矩上限": null
+    },
+    "kinova_gen3": {
+      "显示名": "Kinova Gen3",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "kinova_gen3-6b430075c85c0567.tar.xz",
+      "sha256": "f3a31bf66f34c38b53b175329b91e3bee51d285b86e45f38e9e19cc36ed148da",
+      "下载字节": 1180248,
+      "解包字节": 4359372,
+      "默认模型": "gen3",
+      "场景": "scene",
+      "入口": [
+        "gen3",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "kuka_iiwa_14": {
+      "显示名": "KUKA LBR iiwa 14",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "kuka_iiwa_14-83262d87764c82a9.tar.xz",
+      "sha256": "642ac0576319f55d222d537485067571f31fd655633b442b916847ebb0940e8b",
+      "下载字节": 873944,
+      "解包字节": 5019805,
+      "默认模型": "iiwa14",
+      "场景": "scene",
+      "入口": [
+        "iiwa14",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "low_cost_robot_arm": {
+      "显示名": "Low-Cost Robot Arm",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "low_cost_robot_arm-4a2f9a7d1f9fdfd7.tar.xz",
+      "sha256": "f3b8ae4cebe497bd1f09397f12460eff75a19dccf2cb6d5e0aaeea769cec16d6",
+      "下载字节": 1743604,
+      "解包字节": 6547512,
+      "默认模型": "low_cost_robot_arm",
+      "场景": "scene",
+      "入口": [
+        "low_cost_robot_arm",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "rethink_robotics_sawyer": {
+      "显示名": "Rethink Robotics Sawyer",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "rethink_robotics_sawyer-4b0d742b4136b8f8.tar.xz",
+      "sha256": "79bd43888554d98bd4e5b5fc784f4fd384653b6da160495d55cebb821faaf97e",
+      "下载字节": 3247792,
+      "解包字节": 29814989,
+      "默认模型": "sawyer",
+      "场景": "scene",
+      "入口": [
+        "sawyer",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "robotstudio_so101": {
+      "显示名": "The Robot Studio SO101",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "robotstudio_so101-76a095b3fec789ca.tar.xz",
+      "sha256": "d30a340226bc5adb31d7e18b512a479ae3af3daa4fa9724ee3a67b04a4c2e4a2",
+      "下载字节": 4047544,
+      "解包字节": 17441318,
+      "默认模型": "so101",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "scene_box",
+        "so101"
+      ],
+      "扭矩上限": null
+    },
+    "seeed_rebot_devarm": {
+      "显示名": "Seeed Studio reBot DevArm",
+      "类别": "arm",
+      "许可": "MIT",
+      "资产": "seeed_rebot_devarm-a9fd2e5e69456f8c.tar.xz",
+      "sha256": "7a9af9091a03b0d41e6e5b562ddda63668966b7bacd68b7d415ed721848b9eba",
+      "下载字节": 3818708,
+      "解包字节": 14970093,
+      "默认模型": "seeed_rebot_devarm",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "seeed_rebot_devarm"
+      ],
+      "扭矩上限": null
+    },
+    "trossen_vx300s": {
+      "显示名": "ViperX 300 6DOF",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "trossen_vx300s-659ff3e33ef9b996.tar.xz",
+      "sha256": "78cf57b538e2ed91faf508194fbb4a60f513481bb1c620be578bf44424037403",
+      "下载字节": 234528,
+      "解包字节": 1409690,
+      "默认模型": "vx300s",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "vx300s"
+      ],
+      "扭矩上限": null
+    },
+    "trossen_wx250s": {
+      "显示名": "WidowX 250 6DOF",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "trossen_wx250s-09f19f52c372a040.tar.xz",
+      "sha256": "7749125492b7cc91a20477dd7fdb5d492efa9d64972f218331854d9b5a533a55",
+      "下载字节": 112312,
+      "解包字节": 558138,
+      "默认模型": "wx250s",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "wx250s"
+      ],
+      "扭矩上限": null
+    },
+    "trossen_wxai": {
+      "显示名": "Trossen WXAI",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "trossen_wxai-cc599081ed392755.tar.xz",
+      "sha256": "6b97c3ae34b846befe7cb8d9daefb030ff5bc76955e3eb286cd82109efc55475",
+      "下载字节": 1240228,
+      "解包字节": 4396548,
+      "默认模型": "wxai_follower_biarm",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "wxai_follower",
+        "wxai_follower_biarm"
+      ],
+      "扭矩上限": null
+    },
+    "trs_so_arm100": {
+      "显示名": "Standard Open Arm-100 5DOF - Version 1.3",
+      "类别": "arm",
+      "许可": "Apache-2.0",
+      "资产": "trs_so_arm100-1214e62ef659a338.tar.xz",
+      "sha256": "7c490f0b1efc1be327597b0f9353be29ec4b7a26a9a0c20cb9a010ec2b7f3e25",
+      "下载字节": 634532,
+      "解包字节": 3102147,
+      "默认模型": "so_arm100",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "so_arm100"
+      ],
+      "扭矩上限": null
+    },
+    "ufactory_lite6": {
+      "显示名": "Lite 6",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "ufactory_lite6-0e9ddb13efb55994.tar.xz",
+      "sha256": "ed8fe7214d86fbcc346e58c06255f1b0740a1264dc02cfd1173e6268e451d401",
+      "下载字节": 1099548,
+      "解包字节": 4318490,
+      "默认模型": "lite6",
+      "场景": "scene",
+      "入口": [
+        "lite6",
+        "lite6_gripper_narrow",
+        "lite6_gripper_wide",
+        "scene"
+      ],
+      "扭矩上限": null
+    },
+    "ufactory_xarm7": {
+      "显示名": "xArm7",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "ufactory_xarm7-16cfe120310f44c0.tar.xz",
+      "sha256": "c43a399b95d6398c2c62021324e58d3aa4c27b38614390f6c877b2c068693e5a",
+      "下载字节": 1092104,
+      "解包字节": 4567787,
+      "默认模型": "xarm7",
+      "场景": "scene",
+      "入口": [
+        "hand",
+        "scene",
+        "xarm7",
+        "xarm7_nohand"
+      ],
+      "扭矩上限": null
+    },
+    "unitree_z1": {
+      "显示名": "Unitree Z1",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "unitree_z1-57dcad724b33c8e5.tar.xz",
+      "sha256": "6a73cb76b503694c331034305d3b9b7a8f2cb230efce926ed1d1a965b6673f45",
+      "下载字节": 3270188,
+      "解包字节": 12272407,
+      "默认模型": "z1",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "z1",
+        "z1_gripper"
+      ],
+      "扭矩上限": null
+    },
+    "universal_robots_ur10e": {
+      "显示名": "Universal Robots UR10e",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "universal_robots_ur10e-28102f4e85777797.tar.xz",
+      "sha256": "5ae0487d20619741e44694ff9ff623c2fe7137720dcac612f993b4ee80c911b8",
+      "下载字节": 2867540,
+      "解包字节": 33306089,
+      "默认模型": "ur10e",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "ur10e"
+      ],
+      "扭矩上限": null
+    },
+    "universal_robots_ur5e": {
+      "显示名": "Universal Robots UR5e",
+      "类别": "arm",
+      "许可": "BSD-3-Clause",
+      "资产": "universal_robots_ur5e-2a3464301404aba7.tar.xz",
+      "sha256": "dfecee8c3a53b2a447fdec5e253d9b6cb7fcc9843b3d424cbbb9462774e36652",
+      "下载字节": 2640784,
+      "解包字节": 30994086,
+      "默认模型": "ur5e",
+      "场景": "scene",
+      "入口": [
+        "scene",
+        "ur5e"
+      ],
+      "扭矩上限": null
+    }
+  }
+}

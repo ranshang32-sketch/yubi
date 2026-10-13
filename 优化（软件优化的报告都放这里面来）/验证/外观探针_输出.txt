@@ -1,0 +1,66 @@
+探针] 仿真侧：已把空场景 (nq=0) 发给窗口；本实验不需要物理步进
+探针] 自研面板已加载：['关于', '控制器参数', '数据录制', '模型库', '实时监控', '参数辨识']
+探针] 窗口即将打开……
+探针] A1 GetStyle() 暴露的字段：['FramePadding', 'ItemSpacing', 'WindowPadding']
+探针] A2 可以直接改的字段：['FramePadding', 'ItemSpacing', 'WindowPadding']
+探针] A3 改不了的字段：['WindowRounding（AttributeError）', 'FrameRounding（AttributeError）', 'WindowBorderSize（AttributeError）', 'FrameBorderSize（AttributeError）', 'GrabRounding（AttributeError）', 'ScrollbarSize（AttributeError）']
+探针] A4 全局改颜色/样式的函数：['SetColorEditOptions', 'TableSetBgColor']
+探针] B1 Col.Button：推入前=0xff544a47 推入后=0xff1f1fcc 弹出后=0xff544a47 → ✓ 推入真的生效且可还原
+探针] B2 PushStyleVar（圆角/边框/内边距）推入+弹出：✓ 没有报错
+探针] B3 implot（曲线）可独立换肤：✓（implot.Col 18 项）
+探针] B4 字体相关函数：['GetFontSize', 'GetFontTexUvWhitePixel', 'PopFont', 'SetWindowFontScale'] → ✗ 没有加载字体的入口（只能用内置字体 + 缩放）
+探针] B5 画布接口：✗ 没有 GetWindowDrawList —— 不能直接画斜线/多边形
+探针] E1 FontGlobalScale 不可用：AttributeError: can't set attribute
+探针] E2 implot.StyleVar 可推入项 22 个：['AnnotationPadding', 'DigitalPadding', 'DigitalSpacing', 'FitPadding', 'LabelPadding', 'LegendInnerPadding', 'LegendPadding', 'LegendSpacing', 'MajorGridSize', 'MajorTickLen', 'MajorTickSize', 'MinorAlpha', 'MinorGridSize', 'MinorTickLen', 'MinorTickSize', 'MousePosPadding', 'PlotBorderSize', 'PlotDefaultSize', 'PlotMinSize', 'PlotPadding', 'name', 'value']
+探针] E3 implot 形状（边框/内边距）推入+弹出：✓ 没有报错
+探针] B6 逐帧推入皮肤：10 个颜色 + 9 个形状变量（19 项）
+探针] C1 已故意推入 1 个颜色 + 1 个变量且不弹出（观察 ImGui 的反应）
+探针] C2 逐帧换肤 51 帧 / 逐帧弹出 51 帧 （✓ 完全配对，帧 10~60 期间 ImGui 一条错都没报）；皮肤共推入 102 轮（比帧数多出来的轮数来自 setup_theme 包装，见 D 段）
+探针] C3 泄漏测试在第 70 帧；存活帧数 140（是否报错见下方 imgui-error 日志）
+探针] C4 每帧换肤开销（19 项）：推入 11.9 µs + 弹出 1.7 µs → 可忽略不计
+探针] C5 一帧内的绘制顺序：['面板(USER=100)', '官方ViewerApp画GUI(INTERNAL=1)', '探针弹出(priority=0)', '面板(USER=100)', '官方ViewerApp画GUI(INTERNAL=1)', '探针弹出(priority=0)'] …（每帧重复）
+探针] C6 见证结果：{'① 自研面板开始画时皮肤已生效': True, '① 实测按钮色': '0xff1f1fcc', '② 官方 GUI 画完之后皮肤仍生效': True, '③ 弹出之前（官方 GUI 已画完）皮肤仍生效': True}
+探针] D1 官方 ux.setup_theme 被调用 141 次 / 共 140 帧 → ★ 确认：官方每帧都在重设主题，所以不包一层就换不上官方面板
+探针] D2 皮肤补推时机：['官方setup_theme#11之后→补推', '官方setup_theme#12之后→补推', '官方setup_theme#13之后→补推', '官方setup_theme#14之后→补推', '官方setup_theme#15之后→补推', '官方setup_theme#16之后→补推']
+探针] 窗口已正常关闭。
+
+======================================================================
+  探针报告
+======================================================================
+  仿真侧：已把空场景 (nq=0) 发给窗口；本实验不需要物理步进
+  自研面板已加载：['关于', '控制器参数', '数据录制', '模型库', '实时监控', '参数辨识']
+  窗口即将打开……
+  A1 GetStyle() 暴露的字段：['FramePadding', 'ItemSpacing', 'WindowPadding']
+  A2 可以直接改的字段：['FramePadding', 'ItemSpacing', 'WindowPadding']
+  A3 改不了的字段：['WindowRounding（AttributeError）', 'FrameRounding（AttributeError）', 'WindowBorderSize（AttributeError）', 'FrameBorderSize（AttributeError）', 'GrabRounding（AttributeError）', 'ScrollbarSize（AttributeError）']
+  A4 全局改颜色/样式的函数：['SetColorEditOptions', 'TableSetBgColor']
+  B1 Col.Button：推入前=0xff544a47 推入后=0xff1f1fcc 弹出后=0xff544a47 → ✓ 推入真的生效且可还原
+  B2 PushStyleVar（圆角/边框/内边距）推入+弹出：✓ 没有报错
+  B3 implot（曲线）可独立换肤：✓（implot.Col 18 项）
+  B4 字体相关函数：['GetFontSize', 'GetFontTexUvWhitePixel', 'PopFont', 'SetWindowFontScale'] → ✗ 没有加载字体的入口（只能用内置字体 + 缩放）
+  B5 画布接口：✗ 没有 GetWindowDrawList —— 不能直接画斜线/多边形
+  E1 FontGlobalScale 不可用：AttributeError: can't set attribute
+  E2 implot.StyleVar 可推入项 22 个：['AnnotationPadding', 'DigitalPadding', 'DigitalSpacing', 'FitPadding', 'LabelPadding', 'LegendInnerPadding', 'LegendPadding', 'LegendSpacing', 'MajorGridSize', 'MajorTickLen', 'MajorTickSize', 'MinorAlpha', 'MinorGridSize', 'MinorTickLen', 'MinorTickSize', 'MousePosPadding', 'PlotBorderSize', 'PlotDefaultSize', 'PlotMinSize', 'PlotPadding', 'name', 'value']
+  E3 implot 形状（边框/内边距）推入+弹出：✓ 没有报错
+  B6 逐帧推入皮肤：10 个颜色 + 9 个形状变量（19 项）
+  C1 已故意推入 1 个颜色 + 1 个变量且不弹出（观察 ImGui 的反应）
+  C2 逐帧换肤 51 帧 / 逐帧弹出 51 帧 （✓ 完全配对，帧 10~60 期间 ImGui 一条错都没报）；皮肤共推入 102 轮（比帧数多出来的轮数来自 setup_theme 包装，见 D 段）
+  C3 泄漏测试在第 70 帧；存活帧数 140（是否报错见下方 imgui-error 日志）
+  C4 每帧换肤开销（19 项）：推入 11.9 µs + 弹出 1.7 µs → 可忽略不计
+  C5 一帧内的绘制顺序：['面板(USER=100)', '官方ViewerApp画GUI(INTERNAL=1)', '探针弹出(priority=0)', '面板(USER=100)', '官方ViewerApp画GUI(INTERNAL=1)', '探针弹出(priority=0)'] …（每帧重复）
+  C6 见证结果：{'① 自研面板开始画时皮肤已生效': True, '① 实测按钮色': '0xff1f1fcc', '② 官方 GUI 画完之后皮肤仍生效': True, '③ 弹出之前（官方 GUI 已画完）皮肤仍生效': True}
+  D1 官方 ux.setup_theme 被调用 141 次 / 共 140 帧 → ★ 确认：官方每帧都在重设主题，所以不包一层就换不上官方面板
+  D2 皮肤补推时机：['官方setup_theme#11之后→补推', '官方setup_theme#12之后→补推', '官方setup_theme#13之后→补推', '官方setup_theme#14之后→补推', '官方setup_theme#15之后→补推', '官方setup_theme#16之后→补推']
+  窗口已正常关闭。
+======================================================================
+FEngine (64 bits) created at 0x139c80000 (threading is enabled)
+FEngine resolved backend: OpenGL
+[Apple], [Apple M5], [4.1 Metal - 90.5], [4.10]
+Feature level: 1
+Active workarounds: 
+allow_read_only_ancillary_feedback_loop
+Backend feature level: 1
+FEngine feature level: 1
+[00070] [imgui-error] (current settings: Assert=1, Log=1, Tooltip=1)
+[00070] [imgui-error] In window 'Debug##Default': Missing PopStyleColor()
+[00070] [imgui-error] In window 'Debug##Default': Missing PopStyleVar()

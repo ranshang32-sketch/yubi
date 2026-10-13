@@ -1,0 +1,17 @@
+<!-- 由 urdf_转_mjcf.py 生成；以下为 URDF 表达不了、需手工确认的量 -->
+<!-- joint1: 相电阻 R = 0.85 Ω（mujoco 3.13.0 无法写入 dcmotor） -->
+<mujoco model="demo_joint">
+  <compiler angle="radian"/>
+
+  <worldbody>
+    <geom size="0.05 0.02" type="cylinder"/>
+    <body name="rotor" pos="0 0 0.04">
+      <inertial pos="0 0 0" mass="0.12" diaginertia="2.1e-05 2.1e-05 1.8e-05"/>
+      <joint name="joint1" range="-2.6 2.6" actuatorfrcrange="-20 20" armature="0.001458" damping="0.05 0.05 0.05" frictionloss="0.02"/>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <general name="joint1_motor" joint="joint1" actlimited="false" gear="9" dynprm="0" actearly="true" gainprm="0.945 0.945"/>
+  </actuator>
+</mujoco>

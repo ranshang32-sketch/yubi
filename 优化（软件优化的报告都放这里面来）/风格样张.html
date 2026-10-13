@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<title>驭臂 · 面板外观风格样张（5 套）</title>
+<style>
+  body { margin:0; padding:28px; background:#0e1014; color:#dfe3ea;
+         font:14px/1.6 -apple-system,"PingFang SC","Helvetica Neue",sans-serif; }
+  h1 { font-size:22px; margin:0 0 6px; }
+  .lead { color:#98a2b3; margin:0 0 26px; max-width:900px; }
+  .lead code { background:#1b1f27; padding:1px 5px; border-radius:3px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(390px,1fr)); gap:22px; }
+  .card h2 { font-size:16px; margin:0 0 4px; color:#fff; }
+  .desc { color:#8f99a8; margin:0 0 6px; font-size:13px; }
+  .meta { color:#6f7a8a; margin:0 0 12px; font-size:12px; }
+  .meta b { color:#aab4c4; }
+  .mock { background:var(--win-bg); border:var(--bw) solid var(--border);
+          border-radius:var(--rad); overflow:hidden; box-shadow:0 6px 26px #0008; }
+  .titlebar { background:var(--title); color:var(--text); padding:7px 10px;
+              font-weight:600; display:flex; align-items:center; gap:8px;
+              border-bottom:var(--tbw) solid var(--sep); }
+  .titlebar .x { margin-left:auto; opacity:.75; }
+  .dot { width:9px; height:9px; background:var(--check); display:inline-block; }
+  .body { padding:var(--wp); color:var(--text); }
+  .row { display:flex; gap:10px; align-items:center; margin-bottom:9px; flex-wrap:wrap; }
+  .t { color:var(--text); } .d { color:var(--dim); font-size:12px; }
+  .l { color:var(--link); text-decoration:underline; }
+  .btns { display:flex; gap:8px; margin-bottom:9px; flex-wrap:wrap; }
+  .b { background:var(--btn); color:var(--text); border:var(--fbn,1px) solid var(--border);
+       border-radius:var(--frad); padding:var(--fp); font:inherit; font-size:13px; cursor:default; }
+  .b.hov { background:var(--btn-h); } .b.act { background:var(--btn-a); }
+  .b.sel { background:var(--hdr-a); }
+  .frame { background:var(--frame); border:1px solid var(--border); border-radius:var(--frad);
+           padding:var(--fp); flex:1; min-width:130px; font-size:13px; }
+  .slider { background:var(--frame); border:1px solid var(--border); border-radius:var(--frad);
+            flex:1; min-width:90px; padding:var(--fp); }
+  .slider i { display:block; height:6px; background:var(--grab);
+              border-radius:calc(var(--frad)/2); width:62%; }
+  .tabs { display:flex; gap:3px; border-bottom:var(--tbw) solid var(--sep); margin-bottom:9px; }
+  .tab { background:var(--frame); padding:5px 12px; font-size:13px;
+         border-radius:var(--frad) var(--frad) 0 0; }
+  .tab.s { background:var(--hdr); box-shadow:inset 0 2px 0 var(--check); }
+  .hr { height:2px; background:var(--sep); margin:10px 0; }
+  table { width:100%; border-collapse:collapse; font-size:12.5px; }
+  th { background:var(--th); text-align:left; padding:5px 7px;
+       border-bottom:1px solid var(--tbl); }
+  td { padding:4px 7px; background:var(--row); border-bottom:1px solid var(--tbl-l); }
+  tr.alt td { background:var(--row-alt); }
+  .mono { font-family:ui-monospace,Menlo,monospace; }
+  .plot { margin-top:10px; background:var(--plot-bg); border:1px solid var(--plot-bd);
+          border-radius:var(--frad); padding:6px; }
+  .plot svg { width:100%; height:62px; display:block;
+              background:repeating-linear-gradient(90deg,var(--grid) 0 1px,transparent 1px 34px),
+                         repeating-linear-gradient(0deg,var(--grid) 0 1px,transparent 1px 15px); }
+  .swrow { display:flex; gap:5px; align-items:center; margin-top:9px; }
+  .sw { width:17px; height:17px; display:inline-block; border:1px solid #0006; }
+  footer { margin-top:30px; color:#6f7a8a; font-size:12.5px; }
+</style></head><body>
+<h1>驭臂 · 面板外观风格样张</h1>
+<p class="lead">这份样张里的每个颜色、圆角、边框宽度都<b>直接取自</b> <code>优化/风格表.json</code>，
+  也就是将来真界面要用的同一份数据（每套风格覆盖 55 个颜色项 + 28 个样式项 + 16 个曲线颜色项）。
+  想改哪套，改 JSON 再重跑 <code>.venv/bin/python 优化/验证/生成样张.py</code> 即可。</p>
+<p class="lead">★ 说明：真实界面用的是 ImGui 内置字体（<b>无法换字体</b>），所以下面这张样张的
+  字体只是示意；能确定的差异是颜色、圆角、边框粗细、内边距与信息密度。</p>
+<div class="grid">
+  <section class="card" style="
+      --win-bg:rgba(255,255,255,1.000); --child-bg:rgba(255,255,255,1.000);
+      --border:rgba(230,230,230,1.000); --bw:1.0px;
+      --fbn:1.0px;
+      --rad:0.0px; --frad:0.0px;
+      --title:rgba(255,255,255,1.000); --title-on:rgba(255,255,255,1.000);
+      --text:rgba(20,20,20,1.000); --dim:rgba(154,154,154,1.000); --link:rgba(47,111,235,1.000);
+      --frame:rgba(244,244,244,1.000); --frame-h:rgba(237,237,237,1.000); --frame-a:rgba(230,230,230,1.000);
+      --btn:rgba(240,240,240,1.000); --btn-h:rgba(230,230,230,1.000); --btn-a:rgba(217,217,217,1.000);
+      --hdr:rgba(240,240,240,1.000); --hdr-h:rgba(232,232,232,1.000); --hdr-a:rgba(221,221,221,1.000);
+      --sep:rgba(230,230,230,1.000); --check:rgba(17,17,17,1.000); --grab:rgba(17,17,17,1.000);
+      --grab-a:rgba(0,0,0,1.000); --th:rgba(250,250,250,1.000); --row:rgba(255,255,255,1.000);
+      --row-alt:rgba(250,250,250,1.000); --tbl:rgba(221,221,221,1.000); --tbl-l:rgba(238,238,238,1.000);
+      --plot-bg:rgba(255,255,255,1.000); --plot-bd:rgba(230,230,230,1.000); --grid:rgba(239,239,239,1.000);
+      --axis-t:rgba(58,58,58,1.000); --tbw:1.0px;
+      --wp:16.0px; --fp:10.0px;
+  ">
+    <h2>极简 Minimal</h2>
+    <p class="desc">白纸灰线、全直角、发丝边框，唯一强调色是低饱和蓝。信息密度最低，适合演示与截图。</p>
+    <p class="meta">基底主题 <b>light</b> ｜ 圆角 <b>0.0px</b>
+       ｜ 窗口边框 <b>1.0px</b> ｜ 控件边框 <b>1.0px</b>
+       ｜ 窗口内边距 <b>16,12</b>
+       ｜ 控件内边距 <b>10,6</b>
+       ｜ 滚动条 <b>12px</b> ｜ 颜色项 <b>55</b></p>
+
+    <div class="mock">
+      <div class="titlebar"><span class="dot"></span>极简 面板<span class="x">×</span></div>
+      <div class="body">
+        <div class="row"><span class="t">正文文字 Text</span><span class="d">次要文字 Disabled</span><span class="l">文字链接 Link</span></div>
+        <div class="btns">
+          <button class="b">按钮</button>
+          <button class="b hov">悬停</button>
+          <button class="b act">按下</button>
+          <button class="b sel">✓ 选中行</button>
+        </div>
+        <div class="row">
+          <div class="frame">输入框 / 下拉框</div>
+          <div class="slider"><i></i></div>
+        </div>
+        <div class="tabs"><span class="tab">标签一</span><span class="tab s">标签二</span><span class="tab">标签三</span></div>
+        <div class="hr"></div>
+        <table><thead><tr><th>关节</th><th>目标 (°)</th><th>实际 (°)</th></tr></thead>
+          <tbody><tr><td>shoulder</td><td>-90.0</td><td class="mono">-89.97</td></tr>
+          <tr class="alt"><td>elbow</td><td>0.0</td><td class="mono">0.02</td></tr></tbody></table>
+        <div class="plot">
+          <svg viewBox="0 0 340 62" preserveAspectRatio="none"><polyline fill="none" stroke="#2F6FEB" stroke-width="2" points="0,11.2 34,47.6 68,32.0 102,21.6 136,58.0 170,21.6 204,32.0 238,47.6 272,11.2 306,42.4 340,37.2"/><polyline fill="none" stroke="#111111" stroke-width="2" points="0,34.2 34,13.4 68,49.8 102,23.8 136,23.8 170,49.8 204,13.4 238,34.2 272,39.4 306,8.2 340,44.6"/><polyline fill="none" stroke="#6B7280" stroke-width="2" points="0,41.6 34,26.0 68,15.6 102,52.0 136,15.6 170,26.0 204,41.6 238,5.2 272,36.4 306,31.2 340,10.4"/><polyline fill="none" stroke="#0E9F6E" stroke-width="2" points="0,7.4 34,43.8 68,17.8 102,17.8 136,43.8 170,7.4 204,28.2 238,33.4 272,2.2 306,38.6 340,23.0"/></svg>
+        </div>
+        <div class="swrow"><span class="sw" style="background:#2F6FEB" title="#2F6FEB"></span><span class="sw" style="background:#111111" title="#111111"></span><span class="sw" style="background:#6B7280" title="#6B7280"></span><span class="sw" style="background:#0E9F6E" title="#0E9F6E"></span><span class="sw" style="background:#C27803" title="#C27803"></span><span class="sw" style="background:#9333EA" title="#9333EA"></span><span class="sw" style="background:#0E7490" title="#0E7490"></span><span class="sw" style="background:#9CA3AF" title="#9CA3AF"></span><span class="d">曲线调色板</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="card" style="
+      --win-bg:rgba(27,29,35,0.910); --child-bg:rgba(0,0,0,0.000);
+      --border:rgba(42,46,56,1.000); --bw:0.0px;
+      --fbn:0.0px;
+      --rad:6.0px; --frad:4.0px;
+      --title:rgba(27,29,35,1.000); --title-on:rgba(38,42,51,1.000);
+      --text:rgba(230,232,238,1.000); --dim:rgba(138,144,160,1.000); --link:rgba(138,164,255,1.000);
+      --frame:rgba(36,39,47,1.000); --frame-h:rgba(44,48,58,1.000); --frame-a:rgba(51,56,68,1.000);
+      --btn:rgba(42,46,56,1.000); --btn-h:rgba(56,64,79,1.000); --btn-a:rgba(70,81,106,1.000);
+      --hdr:rgba(42,46,56,1.000); --hdr-h:rgba(51,58,71,1.000); --hdr-a:rgba(61,69,83,1.000);
+      --sep:rgba(42,46,56,1.000); --check:rgba(108,140,255,1.000); --grab:rgba(108,140,255,1.000);
+      --grab-a:rgba(138,164,255,1.000); --th:rgba(34,37,44,1.000); --row:rgba(0,0,0,0.000);
+      --row-alt:rgba(255,255,255,0.031); --tbl:rgba(51,56,68,1.000); --tbl-l:rgba(38,42,51,1.000);
+      --plot-bg:rgba(21,23,28,1.000); --plot-bd:rgba(42,46,56,1.000); --grid:rgba(38,42,51,1.000);
+      --axis-t:rgba(168,174,188,1.000); --tbw:1.0px;
+      --wp:14.0px; --fp:10.0px;
+  ">
+    <h2>现代深色 · 玻璃 Modern Dark</h2>
+    <p class="desc">圆角 + 半透明 + 柔和蓝紫强调色。日常干活最舒服的一套，也是建议的默认皮肤。</p>
+    <p class="meta">基底主题 <b>dark</b> ｜ 圆角 <b>6.0px</b>
+       ｜ 窗口边框 <b>0.0px</b> ｜ 控件边框 <b>0.0px</b>
+       ｜ 窗口内边距 <b>14,10</b>
+       ｜ 控件内边距 <b>10,6</b>
+       ｜ 滚动条 <b>12px</b> ｜ 颜色项 <b>55</b></p>
+
+    <div class="mock">
+      <div class="titlebar"><span class="dot"></span>现代深色 面板<span class="x">×</span></div>
+      <div class="body">
+        <div class="row"><span class="t">正文文字 Text</span><span class="d">次要文字 Disabled</span><span class="l">文字链接 Link</span></div>
+        <div class="btns">
+          <button class="b">按钮</button>
+          <button class="b hov">悬停</button>
+          <button class="b act">按下</button>
+          <button class="b sel">✓ 选中行</button>
+        </div>
+        <div class="row">
+          <div class="frame">输入框 / 下拉框</div>
+          <div class="slider"><i></i></div>
+        </div>
+        <div class="tabs"><span class="tab">标签一</span><span class="tab s">标签二</span><span class="tab">标签三</span></div>
+        <div class="hr"></div>
+        <table><thead><tr><th>关节</th><th>目标 (°)</th><th>实际 (°)</th></tr></thead>
+          <tbody><tr><td>shoulder</td><td>-90.0</td><td class="mono">-89.97</td></tr>
+          <tr class="alt"><td>elbow</td><td>0.0</td><td class="mono">0.02</td></tr></tbody></table>
+        <div class="plot">
+          <svg viewBox="0 0 340 62" preserveAspectRatio="none"><polyline fill="none" stroke="#6C8CFF" stroke-width="2" points="0,11.2 34,47.6 68,32.0 102,21.6 136,58.0 170,21.6 204,32.0 238,47.6 272,11.2 306,42.4 340,37.2"/><polyline fill="none" stroke="#4FD1A5" stroke-width="2" points="0,34.2 34,13.4 68,49.8 102,23.8 136,23.8 170,49.8 204,13.4 238,34.2 272,39.4 306,8.2 340,44.6"/><polyline fill="none" stroke="#FFB020" stroke-width="2" points="0,41.6 34,26.0 68,15.6 102,52.0 136,15.6 170,26.0 204,41.6 238,5.2 272,36.4 306,31.2 340,10.4"/><polyline fill="none" stroke="#FF6B8A" stroke-width="2" points="0,7.4 34,43.8 68,17.8 102,17.8 136,43.8 170,7.4 204,28.2 238,33.4 272,2.2 306,38.6 340,23.0"/></svg>
+        </div>
+        <div class="swrow"><span class="sw" style="background:#6C8CFF" title="#6C8CFF"></span><span class="sw" style="background:#4FD1A5" title="#4FD1A5"></span><span class="sw" style="background:#FFB020" title="#FFB020"></span><span class="sw" style="background:#FF6B8A" title="#FF6B8A"></span><span class="sw" style="background:#A78BFA" title="#A78BFA"></span><span class="sw" style="background:#35D0D0" title="#35D0D0"></span><span class="sw" style="background:#F0A05A" title="#F0A05A"></span><span class="sw" style="background:#B8BFCC" title="#B8BFCC"></span><span class="d">曲线调色板</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="card" style="
+      --win-bg:rgba(15,48,87,0.961); --child-bg:rgba(0,0,0,0.000);
+      --border:rgba(62,110,158,1.000); --bw:1.0px;
+      --fbn:1.0px;
+      --rad:0.0px; --frad:0.0px;
+      --title:rgba(15,48,87,1.000); --title-on:rgba(27,74,122,1.000);
+      --text:rgba(230,241,250,1.000); --dim:rgba(127,163,196,1.000); --link:rgba(127,196,255,1.000);
+      --frame:rgba(19,58,99,1.000); --frame-h:rgba(26,74,120,1.000); --frame-a:rgba(33,87,140,1.000);
+      --btn:rgba(23,64,107,1.000); --btn-h:rgba(33,87,140,1.000); --btn-a:rgba(42,107,168,1.000);
+      --hdr:rgba(27,74,122,1.000); --hdr-h:rgba(33,87,140,1.000); --hdr-a:rgba(42,107,168,1.000);
+      --sep:rgba(46,95,142,1.000); --check:rgba(127,196,255,1.000); --grab:rgba(127,196,255,1.000);
+      --grab-a:rgba(169,219,255,1.000); --th:rgba(19,58,99,1.000); --row:rgba(0,0,0,0.000);
+      --row-alt:rgba(255,255,255,0.031); --tbl:rgba(62,110,158,1.000); --tbl-l:rgba(30,74,116,1.000);
+      --plot-bg:rgba(10,36,64,1.000); --plot-bd:rgba(62,110,158,1.000); --grid:rgba(30,74,116,1.000);
+      --axis-t:rgba(168,200,228,1.000); --tbw:1.0px;
+      --wp:12.0px; --fp:9.0px;
+  ">
+    <h2>蓝图 Blueprint</h2>
+    <p class="desc">深蓝图纸底 + 冰白细线 + 天蓝强调色，像一张工程蓝图。</p>
+    <p class="meta">基底主题 <b>dark</b> ｜ 圆角 <b>0.0px</b>
+       ｜ 窗口边框 <b>1.0px</b> ｜ 控件边框 <b>1.0px</b>
+       ｜ 窗口内边距 <b>12,9</b>
+       ｜ 控件内边距 <b>9,5</b>
+       ｜ 滚动条 <b>12px</b> ｜ 颜色项 <b>55</b></p>
+
+    <div class="mock">
+      <div class="titlebar"><span class="dot"></span>蓝图 面板<span class="x">×</span></div>
+      <div class="body">
+        <div class="row"><span class="t">正文文字 Text</span><span class="d">次要文字 Disabled</span><span class="l">文字链接 Link</span></div>
+        <div class="btns">
+          <button class="b">按钮</button>
+          <button class="b hov">悬停</button>
+          <button class="b act">按下</button>
+          <button class="b sel">✓ 选中行</button>
+        </div>
+        <div class="row">
+          <div class="frame">输入框 / 下拉框</div>
+          <div class="slider"><i></i></div>
+        </div>
+        <div class="tabs"><span class="tab">标签一</span><span class="tab s">标签二</span><span class="tab">标签三</span></div>
+        <div class="hr"></div>
+        <table><thead><tr><th>关节</th><th>目标 (°)</th><th>实际 (°)</th></tr></thead>
+          <tbody><tr><td>shoulder</td><td>-90.0</td><td class="mono">-89.97</td></tr>
+          <tr class="alt"><td>elbow</td><td>0.0</td><td class="mono">0.02</td></tr></tbody></table>
+        <div class="plot">
+          <svg viewBox="0 0 340 62" preserveAspectRatio="none"><polyline fill="none" stroke="#7FC4FF" stroke-width="2" points="0,11.2 34,47.6 68,32.0 102,21.6 136,58.0 170,21.6 204,32.0 238,47.6 272,11.2 306,42.4 340,37.2"/><polyline fill="none" stroke="#E6F1FA" stroke-width="2" points="0,34.2 34,13.4 68,49.8 102,23.8 136,23.8 170,49.8 204,13.4 238,34.2 272,39.4 306,8.2 340,44.6"/><polyline fill="none" stroke="#FFC65C" stroke-width="2" points="0,41.6 34,26.0 68,15.6 102,52.0 136,15.6 170,26.0 204,41.6 238,5.2 272,36.4 306,31.2 340,10.4"/><polyline fill="none" stroke="#6EE7B7" stroke-width="2" points="0,7.4 34,43.8 68,17.8 102,17.8 136,43.8 170,7.4 204,28.2 238,33.4 272,2.2 306,38.6 340,23.0"/></svg>
+        </div>
+        <div class="swrow"><span class="sw" style="background:#7FC4FF" title="#7FC4FF"></span><span class="sw" style="background:#E6F1FA" title="#E6F1FA"></span><span class="sw" style="background:#FFC65C" title="#FFC65C"></span><span class="sw" style="background:#6EE7B7" title="#6EE7B7"></span><span class="sw" style="background:#F0A0C8" title="#F0A0C8"></span><span class="sw" style="background:#C4B5FD" title="#C4B5FD"></span><span class="sw" style="background:#8FD3F4" title="#8FD3F4"></span><span class="sw" style="background:#9FB8CC" title="#9FB8CC"></span><span class="d">曲线调色板</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="card" style="
+      --win-bg:rgba(28,25,23,0.949); --child-bg:rgba(0,0,0,0.000);
+      --border:rgba(61,54,48,1.000); --bw:0.0px;
+      --fbn:0.0px;
+      --rad:3.0px; --frad:3.0px;
+      --title:rgba(28,25,23,1.000); --title-on:rgba(51,44,39,1.000);
+      --text:rgba(237,228,218,1.000); --dim:rgba(156,143,130,1.000); --link:rgba(224,164,88,1.000);
+      --frame:rgba(38,34,32,1.000); --frame-h:rgba(47,42,38,1.000); --frame-a:rgba(58,51,45,1.000);
+      --btn:rgba(42,37,35,1.000); --btn-h:rgba(58,50,44,1.000); --btn-a:rgba(74,64,56,1.000);
+      --hdr:rgba(42,37,35,1.000); --hdr-h:rgba(58,50,44,1.000); --hdr-a:rgba(74,64,56,1.000);
+      --sep:rgba(61,54,48,1.000); --check:rgba(224,164,88,1.000); --grab:rgba(224,164,88,1.000);
+      --grab-a:rgba(240,188,122,1.000); --th:rgba(38,34,32,1.000); --row:rgba(0,0,0,0.000);
+      --row-alt:rgba(255,255,255,0.027); --tbl:rgba(61,54,48,1.000); --tbl-l:rgba(47,42,38,1.000);
+      --plot-bg:rgba(23,20,18,1.000); --plot-bd:rgba(61,54,48,1.000); --grid:rgba(47,42,38,1.000);
+      --axis-t:rgba(196,181,166,1.000); --tbw:1.0px;
+      --wp:14.0px; --fp:10.0px;
+  ">
+    <h2>暖夜 · 暖色深色 Warm Dark</h2>
+    <p class="desc">暖炭灰底 + 铜金强调色，夜里长时间看最不刺眼。</p>
+    <p class="meta">基底主题 <b>dark</b> ｜ 圆角 <b>3.0px</b>
+       ｜ 窗口边框 <b>0.0px</b> ｜ 控件边框 <b>0.0px</b>
+       ｜ 窗口内边距 <b>14,10</b>
+       ｜ 控件内边距 <b>10,6</b>
+       ｜ 滚动条 <b>12px</b> ｜ 颜色项 <b>55</b></p>
+
+    <div class="mock">
+      <div class="titlebar"><span class="dot"></span>暖夜 面板<span class="x">×</span></div>
+      <div class="body">
+        <div class="row"><span class="t">正文文字 Text</span><span class="d">次要文字 Disabled</span><span class="l">文字链接 Link</span></div>
+        <div class="btns">
+          <button class="b">按钮</button>
+          <button class="b hov">悬停</button>
+          <button class="b act">按下</button>
+          <button class="b sel">✓ 选中行</button>
+        </div>
+        <div class="row">
+          <div class="frame">输入框 / 下拉框</div>
+          <div class="slider"><i></i></div>
+        </div>
+        <div class="tabs"><span class="tab">标签一</span><span class="tab s">标签二</span><span class="tab">标签三</span></div>
+        <div class="hr"></div>
+        <table><thead><tr><th>关节</th><th>目标 (°)</th><th>实际 (°)</th></tr></thead>
+          <tbody><tr><td>shoulder</td><td>-90.0</td><td class="mono">-89.97</td></tr>
+          <tr class="alt"><td>elbow</td><td>0.0</td><td class="mono">0.02</td></tr></tbody></table>
+        <div class="plot">
+          <svg viewBox="0 0 340 62" preserveAspectRatio="none"><polyline fill="none" stroke="#E0A458" stroke-width="2" points="0,11.2 34,47.6 68,32.0 102,21.6 136,58.0 170,21.6 204,32.0 238,47.6 272,11.2 306,42.4 340,37.2"/><polyline fill="none" stroke="#EDE4DA" stroke-width="2" points="0,34.2 34,13.4 68,49.8 102,23.8 136,23.8 170,49.8 204,13.4 238,34.2 272,39.4 306,8.2 340,44.6"/><polyline fill="none" stroke="#9DBF9E" stroke-width="2" points="0,41.6 34,26.0 68,15.6 102,52.0 136,15.6 170,26.0 204,41.6 238,5.2 272,36.4 306,31.2 340,10.4"/><polyline fill="none" stroke="#E8A0A0" stroke-width="2" points="0,7.4 34,43.8 68,17.8 102,17.8 136,43.8 170,7.4 204,28.2 238,33.4 272,2.2 306,38.6 340,23.0"/></svg>
+        </div>
+        <div class="swrow"><span class="sw" style="background:#E0A458" title="#E0A458"></span><span class="sw" style="background:#EDE4DA" title="#EDE4DA"></span><span class="sw" style="background:#9DBF9E" title="#9DBF9E"></span><span class="sw" style="background:#E8A0A0" title="#E8A0A0"></span><span class="sw" style="background:#C9A0DC" title="#C9A0DC"></span><span class="sw" style="background:#7FB8C4" title="#7FB8C4"></span><span class="sw" style="background:#F0BC7A" title="#F0BC7A"></span><span class="sw" style="background:#A89880" title="#A89880"></span><span class="d">曲线调色板</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="card" style="
+      --win-bg:rgba(10,15,20,0.941); --child-bg:rgba(0,0,0,0.000);
+      --border:rgba(30,58,70,1.000); --bw:1.0px;
+      --fbn:1.0px;
+      --rad:0.0px; --frad:0.0px;
+      --title:rgba(10,15,20,1.000); --title-on:rgba(16,36,44,1.000);
+      --text:rgba(200,230,240,1.000); --dim:rgba(95,122,136,1.000); --link:rgba(53,208,208,1.000);
+      --frame:rgba(14,21,27,1.000); --frame-h:rgba(20,33,42,1.000); --frame-a:rgba(26,46,57,1.000);
+      --btn:rgba(18,48,58,1.000); --btn-h:rgba(23,65,79,1.000); --btn-a:rgba(29,83,100,1.000);
+      --hdr:rgba(18,48,58,1.000); --hdr-h:rgba(23,65,79,1.000); --hdr-a:rgba(29,83,100,1.000);
+      --sep:rgba(30,58,70,1.000); --check:rgba(53,208,208,1.000); --grab:rgba(53,208,208,1.000);
+      --grab-a:rgba(123,232,232,1.000); --th:rgba(14,26,32,1.000); --row:rgba(0,0,0,0.000);
+      --row-alt:rgba(255,255,255,0.024); --tbl:rgba(30,58,70,1.000); --tbl-l:rgba(22,48,58,1.000);
+      --plot-bg:rgba(7,12,16,1.000); --plot-bd:rgba(30,58,70,1.000); --grid:rgba(20,33,42,1.000);
+      --axis-t:rgba(143,182,196,1.000); --tbw:1.0px;
+      --wp:10.0px; --fp:7.0px;
+  ">
+    <h2>航天测控 Mission Control</h2>
+    <p class="desc">近黑深蓝底 + 青色主色 + 琥珀告警色，边框 1px、内边距压到最小。信息密度最高，长时间盯屏最省眼。</p>
+    <p class="meta">基底主题 <b>dark</b> ｜ 圆角 <b>0.0px</b>
+       ｜ 窗口边框 <b>1.0px</b> ｜ 控件边框 <b>1.0px</b>
+       ｜ 窗口内边距 <b>10,6</b>
+       ｜ 控件内边距 <b>7,3</b>
+       ｜ 滚动条 <b>10px</b> ｜ 颜色项 <b>55</b></p>
+
+    <div class="mock">
+      <div class="titlebar"><span class="dot"></span>航天测控 面板<span class="x">×</span></div>
+      <div class="body">
+        <div class="row"><span class="t">正文文字 Text</span><span class="d">次要文字 Disabled</span><span class="l">文字链接 Link</span></div>
+        <div class="btns">
+          <button class="b">按钮</button>
+          <button class="b hov">悬停</button>
+          <button class="b act">按下</button>
+          <button class="b sel">✓ 选中行</button>
+        </div>
+        <div class="row">
+          <div class="frame">输入框 / 下拉框</div>
+          <div class="slider"><i></i></div>
+        </div>
+        <div class="tabs"><span class="tab">标签一</span><span class="tab s">标签二</span><span class="tab">标签三</span></div>
+        <div class="hr"></div>
+        <table><thead><tr><th>关节</th><th>目标 (°)</th><th>实际 (°)</th></tr></thead>
+          <tbody><tr><td>shoulder</td><td>-90.0</td><td class="mono">-89.97</td></tr>
+          <tr class="alt"><td>elbow</td><td>0.0</td><td class="mono">0.02</td></tr></tbody></table>
+        <div class="plot">
+          <svg viewBox="0 0 340 62" preserveAspectRatio="none"><polyline fill="none" stroke="#35D0D0" stroke-width="2" points="0,11.2 34,47.6 68,32.0 102,21.6 136,58.0 170,21.6 204,32.0 238,47.6 272,11.2 306,42.4 340,37.2"/><polyline fill="none" stroke="#FFB020" stroke-width="2" points="0,34.2 34,13.4 68,49.8 102,23.8 136,23.8 170,49.8 204,13.4 238,34.2 272,39.4 306,8.2 340,44.6"/><polyline fill="none" stroke="#5BE08A" stroke-width="2" points="0,41.6 34,26.0 68,15.6 102,52.0 136,15.6 170,26.0 204,41.6 238,5.2 272,36.4 306,31.2 340,10.4"/><polyline fill="none" stroke="#FF6B9D" stroke-width="2" points="0,7.4 34,43.8 68,17.8 102,17.8 136,43.8 170,7.4 204,28.2 238,33.4 272,2.2 306,38.6 340,23.0"/></svg>
+        </div>
+        <div class="swrow"><span class="sw" style="background:#35D0D0" title="#35D0D0"></span><span class="sw" style="background:#FFB020" title="#FFB020"></span><span class="sw" style="background:#5BE08A" title="#5BE08A"></span><span class="sw" style="background:#FF6B9D" title="#FF6B9D"></span><span class="sw" style="background:#5AA9FF" title="#5AA9FF"></span><span class="sw" style="background:#E8E45A" title="#E8E45A"></span><span class="sw" style="background:#B98CFF" title="#B98CFF"></span><span class="sw" style="background:#DCE8EE" title="#DCE8EE"></span><span class="d">曲线调色板</span></div>
+      </div>
+    </div>
+  </section>
+</div>
+<footer>生成时间：由 优化/验证/生成样张.py 自动生成 ｜ 风格表版本：v1 · 2026-09-17</footer>
+</body></html>

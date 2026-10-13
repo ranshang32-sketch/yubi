@@ -1,0 +1,12 @@
+{
+  "关节": {
+    "j1": {"armature": 0.02, "damping": 0.8, "frictionloss": 0.3},
+    "j2": {"armature": 0.015, "damping": 0.6, "frictionloss": 0.25},
+    "j3": {"armature": 0.008, "damping": 0.4, "frictionloss": 0.2}
+  },
+  "电机": {
+    "j1": {"gear": 100, "Kt": 1.9, "Ke": 1.9, "R": 0.35},
+    "j2": {"gear": 100, "Kt": 1.9, "Ke": 1.9, "R": 0.35},
+    "j3": {"gear": 50,  "Kt": 0.95, "Ke": 0.95, "R": 0.85}
+  }
+}

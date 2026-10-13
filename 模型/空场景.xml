@@ -1,0 +1,43 @@
+<!-- ============================================================================
+     空场景.xml —— 启动时的"空白界面"（只有地面和灯，没有任何机器人）
+
+     为什么需要它：
+       以前一打开软件就直接加载 UR5e，用户没得选。现在启动先给这个空场景，
+       再由【模型库】面板（或把 XML 拖进窗口）选一台机械臂。
+
+     它是什么：
+       一个合法的 MJCF，但 nq = nv = nu = 0 —— 场景里只有地面与平行光。
+
+     注意（踩过的坑）：
+       空场景下 data.qpos / data.ctrl 都是**长度 0 的数组**。
+       控制插件里任何写死下标（例如 目标[1] += 0.35）都会越界。
+       外壳的"插件出错隔离"会兜住它，但插件会被**停用** —— 之后你选了真模型
+       也不会被控制，只能重启。所以固定插件都加了"关节数不够就直接返回"的保护。
+       自己写插件时请也注意这一点。
+     ============================================================================ -->
+<mujoco model="empty_scene">
+  <compiler angle="radian" autolimits="true"/>
+
+  <option timestep="0.002" integrator="implicitfast"/>
+
+  <visual>
+    <headlight diffuse="0.6 0.6 0.6" ambient="0.35 0.35 0.35" specular="0.1 0.1 0.1"/>
+    <rgba haze="0.15 0.2 0.25 1"/>
+    <global azimuth="140" elevation="-25"/>
+  </visual>
+
+  <asset>
+    <texture type="skybox" builtin="gradient" rgb1="0.12 0.16 0.22" rgb2="0.04 0.05 0.07"
+             width="256" height="256"/>
+    <texture name="grid" type="2d" builtin="checker" width="512" height="512"
+             rgb1="0.16 0.17 0.19" rgb2="0.22 0.23 0.26"/>
+    <material name="grid" texture="grid" texrepeat="6 6" reflectance="0.08"/>
+  </asset>
+
+  <worldbody>
+    <light pos="0 0 3" dir="0 0 -1" directional="true" diffuse="0.8 0.8 0.8" specular="0.2 0.2 0.2"/>
+    <!-- 地面：给个参照物，否则空白窗口里连"上下左右"都看不出来 -->
+    <geom name="floor" type="plane" size="3 3 0.1" material="grid"
+          contype="1" conaffinity="1" condim="3" friction="1 0.005 0.0001"/>
+  </worldbody>
+</mujoco>

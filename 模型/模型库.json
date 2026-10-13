@@ -1,0 +1,116 @@
+{
+  "说明": "小软件的模型库索引，由 工具/导入模型.py 自动生成。『扭矩模型』是推荐加载的那个 —— 它的 ctrl 就是关节力矩，能被本项目控制插件直接驱动；『可控制』= true 表示 nu==nv==nq（控制插件写 ctrl 的前提）。界面按『类别=arm』列出可选机械臂。",
+  "根目录": "模型",
+  "模型": [
+    {
+      "标识": "franka_emika_panda",
+      "显示名": "Franka Emika Panda",
+      "类别": "arm",
+      "目录": "franka_emika_panda",
+      "扭矩模型": "franka_emika_panda/panda_torque.xml",
+      "可控制": true,
+      "自由度": 7,
+      "执行器数": 7,
+      "许可": "Apache-2.0",
+      "模型文件": [
+        "franka_emika_panda/hand.xml",
+        "franka_emika_panda/mjx_hand.xml",
+        "franka_emika_panda/mjx_panda.xml",
+        "franka_emika_panda/mjx_panda_nohand.xml",
+        "franka_emika_panda/mjx_scene.xml",
+        "franka_emika_panda/mjx_single_cube.xml",
+        "franka_emika_panda/panda.xml",
+        "franka_emika_panda/panda_nohand.xml",
+        "franka_emika_panda/panda_torque.xml",
+        "franka_emika_panda/scene.xml"
+      ]
+    },
+    {
+      "标识": "kuka_iiwa_14",
+      "显示名": "KUKA LBR iiwa 14",
+      "类别": "arm",
+      "目录": "kuka_iiwa_14",
+      "扭矩模型": "kuka_iiwa_14/iiwa14_torque.xml",
+      "可控制": true,
+      "自由度": 7,
+      "执行器数": 7,
+      "许可": "BSD-3-Clause",
+      "模型文件": [
+        "kuka_iiwa_14/iiwa14.xml",
+        "kuka_iiwa_14/iiwa14_torque.xml",
+        "kuka_iiwa_14/scene.xml"
+      ]
+    },
+    {
+      "标识": "robotiq_2f85",
+      "显示名": "robotiq_2f85",
+      "类别": "不可直接控制",
+      "目录": "robotiq_2f85",
+      "扭矩模型": "robotiq_2f85/2f85.xml",
+      "可控制": false,
+      "自由度": 8,
+      "执行器数": 1,
+      "许可": "BSD-2-Clause",
+      "模型文件": [
+        "robotiq_2f85/2f85.xml",
+        "robotiq_2f85/scene.xml"
+      ]
+    },
+    {
+      "标识": "ufactory_xarm7",
+      "显示名": "xArm7",
+      "类别": "arm",
+      "目录": "ufactory_xarm7",
+      "扭矩模型": "ufactory_xarm7/xarm7_torque.xml",
+      "可控制": true,
+      "自由度": 7,
+      "执行器数": 7,
+      "许可": "BSD-3-Clause",
+      "模型文件": [
+        "ufactory_xarm7/hand.xml",
+        "ufactory_xarm7/scene.xml",
+        "ufactory_xarm7/xarm7.xml",
+        "ufactory_xarm7/xarm7_nohand.xml",
+        "ufactory_xarm7/xarm7_torque.xml"
+      ]
+    },
+    {
+      "标识": "universal_robots_ur10e",
+      "显示名": "Universal Robots UR10e",
+      "类别": "arm",
+      "目录": "universal_robots_ur10e",
+      "扭矩模型": "universal_robots_ur10e/ur10e_torque.xml",
+      "可控制": true,
+      "自由度": 6,
+      "执行器数": 6,
+      "许可": "BSD-3-Clause",
+      "模型文件": [
+        "universal_robots_ur10e/scene.xml",
+        "universal_robots_ur10e/ur10e.xml",
+        "universal_robots_ur10e/ur10e_torque.xml"
+      ]
+    },
+    {
+      "标识": "universal_robots_ur5e",
+      "显示名": "Universal Robots UR5e",
+      "类别": "arm",
+      "目录": "universal_robots_ur5e",
+      "扭矩模型": "universal_robots_ur5e/ur5e_torque.xml",
+      "可控制": true,
+      "自由度": 6,
+      "执行器数": 6,
+      "许可": "BSD-3-Clause",
+      "模型文件": [
+        "universal_robots_ur5e/floor_scene.xml",
+        "universal_robots_ur5e/grasp_scene.xml",
+        "universal_robots_ur5e/grasp_scene_2f85.xml",
+        "universal_robots_ur5e/press_scene.xml",
+        "universal_robots_ur5e/scene.xml",
+        "universal_robots_ur5e/ur5e.xml",
+        "universal_robots_ur5e/ur5e_2f85.xml",
+        "universal_robots_ur5e/ur5e_gripper.xml",
+        "universal_robots_ur5e/ur5e_torque.xml"
+      ]
+    }
+  ]
+}

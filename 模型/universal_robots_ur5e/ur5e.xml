@@ -1,0 +1,249 @@
+<!-- ============================================================================
+     ur5e.xml —— Universal Robots UR5e 六轴协作机械臂的 MJCF 模型
+     来源: MuJoCo Menagerie (google-deepmind/mujoco_menagerie, commit 8161bba)
+     本文件只在原文件基础上添加中文注释, 未改动任何属性取值, 可被 MuJoCo 正常加载。
+     配套文件: scene.xml(带地面/天空盒的场景) / ur5e_gripper.xml / ur5e_torque.xml 等。
+     派生流程: 官方 URDF -> Blender 转 OBJ -> obj2mjcf -> MuJoCo 保存 MJCF -> 手工整理
+     ============================================================================ -->
+<mujoco model="ur5e">
+  <!-- 编译期设置:
+       angle="radian"   —— 本文件所有角度量(关节 range, keyframe qpos 等)都用弧度, 而非默认的 degree
+       meshdir="assets" —— 网格文件目录, 相对于本 XML 所在路径, 即 assets/*.obj
+       autolimits="true"—— 自动给 joint/actuator 补上 range 限制: 若写了 range 就自动置 limited="true",
+                           没写 range 就自动置 limited="false"; 因此下文看不到显式 limited 属性 -->
+  <compiler angle="radian" meshdir="assets" autolimits="true"/>
+
+  <!-- 物理引擎设置:
+       implicitfast —— 隐式积分(隐式处理阻尼/科氏力等与速度相关的项), 数值稳定性好, 是机械臂
+                       这类"刚性关节 + 大传动比"系统最常用的积分器; 比 implicit 更快, 精度接近 -->
+  <option integrator="implicitfast"/>
+
+  <!-- ======================= 默认属性 (default) =======================
+       default 是一棵"继承树": 子 default 会覆盖父 default, 且 body/geom/joint/actuator
+       未显式给出的属性都从这里取。这样同一台机器人的 6 个关节、几十个 geom 不必重复写参数。 -->
+  <default>
+    <!-- class="ur5e": 机器人自己的默认类。子 body 用 childclass="ur5e" 挂上这个类,
+         其内部所有元素(含更深层的 body)自动继承, 无需逐个声明。 -->
+    <default class="ur5e">
+      <!-- 外观: specular=镜面反射强度, shininess=高光锐度。0.5/0.25 让喷涂表面有类金属光泽 -->
+      <material specular="0.5" shininess="0.25"/>
+      <!-- 关节默认值(下面 6 个关节都继承它):
+           axis="0 1 0"  —— 默认转轴为 body 局部坐标系的 +Y 轴(URDF 转换后的结果);
+                            实际 shoulder_pan / wrist_2 会显式改成 "0 0 1"
+           range         —— ±6.28319 rad = ±360°, UR5e 各关节的官方行程
+           armature=0.1  —— 电机关节侧的等效转子惯量(折算到关节输出端), 单位 kg·m²。
+                            仿真里它决定"电机惯量"带来的额外阻尼感, 对稳定性影响很大 -->
+      <joint axis="0 1 0" range="-6.28319 6.28319" armature="0.1"/>
+      <!-- 驱动器默认值: 位置伺服(位置型 PID 的一种 MJCF 等价写法)
+           gaintype="fixed"  增益为常数; biastype="affine" 偏置项为 仿射型(bias = biasprm[0] + biasprm[1]*q + biasprm[2]*q̇)
+           gainprm="2000"    位置增益 kp = 2000
+           biasprm="0 -2000 -400" —— 即 kp = 2000, kd = 400(速度阻尼), 故力矩 = 2000*(ctrl - q) - 400*q̇
+           ctrlrange / forcerange —— 控制量范围 ±6.2831 rad, 输出力矩限幅 ±150 N·m(UR5e 三号关节能力) -->
+      <general gaintype="fixed" biastype="affine" ctrlrange="-6.2831 6.2831" gainprm="2000" biasprm="0 -2000 -400"
+        forcerange="-150 150"/>
+      <!-- size3: UR5e 的"三号关节"(基座/肩部/肘部, 力矩 150 N·m) -->
+      <default class="size3">
+        <!-- size3_limited: 三号关节中行程受限的那一类, 目前只有肘关节(±180°) -->
+        <default class="size3_limited">
+          <!-- 关节行程 ±3.1415 rad ≈ ±180°(肘关节不能整圈旋转) -->
+          <joint range="-3.1415 3.1415"/>
+          <!-- 驱动器的位置指令同步收紧到 ±180°, 避免下达超出机械行程的目标角 -->
+          <general ctrlrange="-3.1415 3.1415"/>
+        </default>
+      </default>
+      <!-- size1: UR5e 的一号关节(三个腕关节, 力矩 28 N·m)。增益/力矩都比三号关节小一个量级 -->
+      <default class="size1">
+        <general gainprm="500" biasprm="0 -500 -100" forcerange="-28 28"/>
+      </default>
+      <!-- visual: 纯外观网格。contype=conaffinity=0 表示它不参与任何碰撞检测(避免用高精度
+           三角网格做碰撞, 既慢又易穿透); group=2 让它归入可视化分组(可在 viewer 里按组开关) -->
+      <default class="visual">
+        <geom type="mesh" contype="0" conaffinity="0" group="2"/>
+      </default>
+      <!-- collision: 简化碰撞体。用胶囊(capsule)近似连杆外形, 计算快、接触光滑; group=3 单独成组 -->
+      <default class="collision">
+        <geom type="capsule" group="3"/>
+        <!-- eef_collision: 末端法兰附近的碰撞体用圆柱(cylinder), 更贴合法兰/腕部的圆盘形状 -->
+        <default class="eef_collision">
+          <geom type="cylinder"/>
+        </default>
+      </default>
+      <!-- site 默认值: size 极小(0.001)、半透明灰; group=4 便于在 viewer 中单独显示。
+           本站点用于标记"工具安装点/TCP", 本身无质量、不碰撞 -->
+      <site size="0.001" rgba="0.5 0.5 0.5 0.3" group="4"/>
+    </default>
+  </default>
+
+  <!-- ======================= 资源 (asset): 材质 + 网格 ======================= -->
+  <asset>
+    <!-- UR5e 的四种标准配色(取自官方外观): 深黑、关节灰、连杆灰、UR 标志性蓝 -->
+    <material class="ur5e" name="black" rgba="0.033 0.033 0.033 1"/>
+    <material class="ur5e" name="jointgray" rgba="0.278 0.278 0.278 1"/>
+    <material class="ur5e" name="linkgray" rgba="0.82 0.82 0.82 1"/>
+    <material class="ur5e" name="urblue" rgba="0.49 0.678 0.8 1"/>
+
+    <!-- 20 个 OBJ 网格(由官方 DAE 转换而来), 按连杆命名:
+         base / shoulder / upperarm / forearm / wrist1 / wrist2 / wrist3。
+         同一个连杆被拆成多个 mesh, 是为了给不同部位分别指定材质(黑/灰/蓝)。
+         下面通过 mesh="xxx_0" 引用, 文件名与 mesh 名同名(不含 .obj)。 -->
+    <mesh file="base_0.obj"/>
+    <mesh file="base_1.obj"/>
+    <mesh file="shoulder_0.obj"/>
+    <mesh file="shoulder_1.obj"/>
+    <mesh file="shoulder_2.obj"/>
+    <mesh file="upperarm_0.obj"/>
+    <mesh file="upperarm_1.obj"/>
+    <mesh file="upperarm_2.obj"/>
+    <mesh file="upperarm_3.obj"/>
+    <mesh file="forearm_0.obj"/>
+    <mesh file="forearm_1.obj"/>
+    <mesh file="forearm_2.obj"/>
+    <mesh file="forearm_3.obj"/>
+    <mesh file="wrist1_0.obj"/>
+    <mesh file="wrist1_1.obj"/>
+    <mesh file="wrist1_2.obj"/>
+    <mesh file="wrist2_0.obj"/>
+    <mesh file="wrist2_1.obj"/>
+    <mesh file="wrist2_2.obj"/>
+    <mesh file="wrist3.obj"/>
+  </asset>
+
+  <!-- ======================= 世界与运动学树 (worldbody) =======================
+       结构是一条单链(串联机械臂):
+       base → shoulder_link → upper_arm_link → forearm_link → wrist_1_link → wrist_2_link → wrist_3_link
+       每个 body 的 pos/quat 是"关节零位时的固定安装位姿", 转动由 body 内的 joint 描述。
+       URDF 的坐标约定(x 朝前, z 朝上)→ MJCF 时, 连杆被整体绕自身 z 轴转了 180°
+       (见下面对 quat="0 0 0 -1" 的说明), 因此各 body 的 pos 常出现在 ±Y 方向, 这是模型内部约定,
+       不影响末端位姿的正确性 —— 阅读时只需认准"沿局部坐标轴量距离"即可。 -->
+  <worldbody>
+    <!-- 跟踪聚光灯: mode="targetbodycom" 表示光源自动瞄准目标 body 的质心(此处 wrist_2_link),
+         机械臂运动时灯光始终跟着它走, 便于观察。pos 是光源在世界系中的位置 -->
+    <light name="spotlight" mode="targetbodycom" target="wrist_2_link" pos="0 -1 2"/>
+    <!-- base: 机器人基座。quat="0 0 0 -1" 是绕 Z 轴 180° 的四元数(w=0, z=-1), 目的正是把
+         URDF 的连杆坐标系"翻个面", 使 base 局部 +Y 指向世界 -Y; 后续连杆的 quat="1 0 1 0"
+         (绕 Y 轴 180°)同理。childclass="ur5e" 让整条链继承上面的默认类。
+         基座质量 4.0 kg, 质心在原点; diaginertia 为对角惯量张量(xx yy zz), 取自官方 URDF -->
+    <body name="base" quat="0 0 0 -1" childclass="ur5e">
+      <inertial mass="4.0" pos="0 0 0" diaginertia="0.00443333156 0.00443333156 0.0072"/>
+      <geom mesh="base_0" material="black" class="visual"/>
+      <geom mesh="base_1" material="jointgray" class="visual"/>
+      <!-- shoulder_link: 肩部。pos 相对 base 抬高 0.163 m(z 向), 即"基座顶面到肩关节"的高度
+           (UR5e 运动学参数 d1 ≈ 0.1625 m, 此处为模型化后的取整值) -->
+      <body name="shoulder_link" pos="0 0 0.163">
+        <inertial mass="3.7" pos="0 0 0" diaginertia="0.0102675 0.0102675 0.00666"/>
+        <!-- 关节 1: 肩部回转(绕竖直轴)。axis="0 0 1" 覆盖默认的 Y 轴, 因为它绕 body 的 z 轴旋转;
+             class="size3" 取用 150 N·m 档的行程 ±360°。这是唯一一个绕 Z 转的"腰"关节 -->
+        <joint name="shoulder_pan_joint" class="size3" axis="0 0 1"/>
+        <geom mesh="shoulder_0" material="urblue" class="visual"/>
+        <geom mesh="shoulder_1" material="black" class="visual"/>
+        <geom mesh="shoulder_2" material="jointgray" class="visual"/>
+        <!-- 碰撞体 1: 半径为 0.06 的球(胶囊 size 只给一个数即为球), 下移 0.04 m 包住肩部外壳 -->
+        <geom class="collision" size="0.06 0.06" pos="0 0 -0.04"/>
+        <!-- upper_arm_link: 大臂。pos="0 0.138 0" 沿 Y 偏移 0.138 m(UR5e 肩部偏置),
+             quat="1 0 1 0" 绕 Y 轴 180°(约定见上)。大臂质量为 8.393 kg, 是全身最重的一节,
+             质心 pos="0 0 0.2125" 表示在连杆局部 z 向 0.2125 m 处(接近大臂中点) -->
+        <body name="upper_arm_link" pos="0 0.138 0" quat="1 0 1 0">
+          <inertial mass="8.393" pos="0 0 0.2125" diaginertia="0.133886 0.133886 0.0151074"/>
+          <!-- 关节 2: 肩部俯仰(抬大臂)。class="size3" 沿用默认轴 "0 1 0" 与 ±360° 行程 -->
+          <joint name="shoulder_lift_joint" class="size3"/>
+          <geom mesh="upperarm_0" material="linkgray" class="visual"/>
+          <geom mesh="upperarm_1" material="black" class="visual"/>
+          <geom mesh="upperarm_2" material="jointgray" class="visual"/>
+          <geom mesh="upperarm_3" material="urblue" class="visual"/>
+          <!-- 碰撞体 2: 圆柱形关节壳(胶囊, 半径 0.06, 半长 0.04),
+               quat="1 1 0 0" 是绕 X 轴 180°, 把胶囊的默认 Z 向轴摆到 Y 向, 使其横向包裹关节 -->
+          <geom class="collision" pos="0 -0.04 0" quat="1 1 0 0" size="0.06 0.06"/>
+          <!-- 碰撞体 3: 大臂杆身(胶囊, 半径 0.05, 半长 0.2), 从关节处沿 z 伸出 0.2 m -->
+          <geom class="collision" size="0.05 0.2" pos="0 0 0.2"/>
+          <!-- forearm_link: 小臂。pos="0 -0.131 0.425": 沿 Y 反向 0.131 m、沿 z 前进 0.425 m,
+               0.425 m 正是 UR5e 的大臂长度(运动学参数 a2); 这 0.131 m 的横向偏移使 UR5e 成为
+               "非球形腕"构型 —— 腕部三轴不相交于一点, 因此逆解不能简单用 Pieper 闭式解。质量 2.275 kg -->
+          <body name="forearm_link" pos="0 -0.131 0.425">
+            <inertial mass="2.275" pos="0 0 0.196" diaginertia="0.0311796 0.0311796 0.004095"/>
+            <!-- 关节 3: 肘部。class="size3_limited" 把行程限制为 ±180°(UR5e 肘关节不能整圈转),
+                 力矩上限仍为 150 N·m -->
+            <joint name="elbow_joint" class="size3_limited"/>
+            <geom mesh="forearm_0" material="urblue" class="visual"/>
+            <geom mesh="forearm_1" material="linkgray" class="visual"/>
+            <geom mesh="forearm_2" material="black" class="visual"/>
+            <geom mesh="forearm_3" material="jointgray" class="visual"/>
+            <geom class="collision" pos="0 0.08 0" quat="1 1 0 0" size="0.055 0.06"/>
+            <geom class="collision" size="0.038 0.19" pos="0 0 0.2"/>
+            <!-- wrist_1_link: 腕部 1(绕小臂轴线的"翻转"关节)。pos="0 0 0.392" —— 即 UR5e 的小臂长
+                 a3 = 0.392 m; quat="1 0 1 0" 又一次绕 Y 轴 180°。腕部三节质量分别为 1.219/1.219/0.1889 kg -->
+            <body name="wrist_1_link" pos="0 0 0.392" quat="1 0 1 0">
+              <inertial mass="1.219" pos="0 0.127 0" diaginertia="0.0025599 0.0025599 0.0021942"/>
+              <!-- 关节 4: 腕 1。class="size1" —— 用 28 N·m 档, 行程 ±360°(默认轴 Y) -->
+              <joint name="wrist_1_joint" class="size1"/>
+              <geom mesh="wrist1_0" material="black" class="visual"/>
+              <geom mesh="wrist1_1" material="urblue" class="visual"/>
+              <geom mesh="wrist1_2" material="jointgray" class="visual"/>
+              <geom class="collision" pos="0 0.05 0" quat="1 1 0 0" size="0.04 0.07"/>
+              <!-- wrist_2_link: 腕部 2(摆动手腕)。pos="0 0.127 0" —— 腕 1 与腕 2 相距 0.127 m,
+                   这段"偏心"距离是 UR5e 三轴腕非球形、腕心不与轴线相交的几何原因 -->
+              <body name="wrist_2_link" pos="0 0.127 0">
+                <inertial mass="1.219" pos="0 0 0.1" diaginertia="0.0025599 0.0025599 0.0021942"/>
+                <!-- 关节 5: 腕 2。axis="0 0 1" 覆盖默认轴, 绕自身 z 轴摆动 -->
+                <joint name="wrist_2_joint" axis="0 0 1" class="size1"/>
+                <geom mesh="wrist2_0" material="black" class="visual"/>
+                <geom mesh="wrist2_1" material="urblue" class="visual"/>
+                <geom mesh="wrist2_2" material="jointgray" class="visual"/>
+                <geom class="collision" size="0.04 0.06" pos="0 0 0.04"/>
+                <geom class="collision" pos="0 0.02 0.1" quat="1 1 0 0" size="0.04 0.04"/>
+                <!-- wrist_3_link: 末端法兰盘。pos="0 0 0.1" —— 腕 2 到法兰 0.1 m。
+                     质量仅 0.1889 kg(法兰盘 + 输出端), 惯量张量还用 quat="1 0 0 1"(绕 X 轴 180°)
+                     描述主轴方向, 故惯量三个主值不相等 -->
+                <body name="wrist_3_link" pos="0 0 0.1">
+                  <inertial mass="0.1889" pos="0 0.0771683 0" quat="1 0 0 1"
+                    diaginertia="0.000132134 9.90863e-05 9.90863e-05"/>
+                  <!-- 关节 6: 腕 3(法兰自转)。class="size1", 默认轴 Y, ±360° 行程 -->
+                  <joint name="wrist_3_joint" class="size1"/>
+                  <geom material="linkgray" mesh="wrist3" class="visual"/>
+                  <!-- 末端碰撞体: class="eef_collision" 指定为圆柱(半径 0.04, 半长 0.02),
+                       quat="1 1 0 0" 使圆柱轴线朝 Y 向, 贴合法兰的圆盘形状 -->
+                  <geom class="eef_collision" pos="0 0.08 0" quat="1 1 0 0" size="0.04 0.02"/>
+                  <!-- attachment_site: 工具安装点(TCP 参考)。pos="0 0.1 0": 沿父坐标系 +Y 外移 0.1 m
+                       (wrist_3 的 +Y 即"法兰朝外"方向), 因此它代表法兰面之外的工具中心点。
+                       quat="-1 1 0 0" 是绕 Y 轴 180°(等价于绕 X 轴 180°)的旋转, 作用是让 site 的
+                       +z 轴与父坐标系的 +Y 对齐 —— 即 site 的 z 轴就是"工具向外伸出"的方向;
+                       本文件与 ur5e_gripper.xml / ur5e_torque.xml 中该 site 的位姿完全一致,
+                       而 press_scene.xml 直接对该 site 施加外力, grasp_scene.xml 用 site 做抓取对齐。
+                       挂载工具的标准写法: <body name="tool" site="attachment_site"> ... </body>
+                       (ur5e_gripper.xml 就是用 body pos/quat 复制同一坐标系挂上夹爪的) -->
+                  <site name="attachment_site" pos="0 0.1 0" quat="-1 1 0 0"/>
+                </body>
+              </body>
+            </body>
+          </body>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <!-- ======================= 执行器 (actuator) =======================
+       每个关节配一个 <general> 位置伺服: 输入 ctrl 是目标关节角(rad), 内部按
+       力矩 = gainprm*(ctrl - q) + biasprm 组合计算, 并按 forcerange 限幅。
+       6 个驱动器的顺序与 qpos/ctrl 向量的顺序一致, 因此 keyframe 中可以直接按
+       [shoulder_pan, shoulder_lift, elbow, wrist_1, wrist_2, wrist_3] 填写。
+       class 决定各自的行程与力矩档位(见 <default> 中的 size3 / size3_limited / size1) -->
+  <actuator>
+    <general class="size3" name="shoulder_pan" joint="shoulder_pan_joint"/>
+    <general class="size3" name="shoulder_lift" joint="shoulder_lift_joint"/>
+    <general class="size3_limited" name="elbow" joint="elbow_joint"/>
+    <general class="size1" name="wrist_1" joint="wrist_1_joint"/>
+    <general class="size1" name="wrist_2" joint="wrist_2_joint"/>
+    <general class="size1" name="wrist_3" joint="wrist_3_joint"/>
+  </actuator>
+
+  <!-- ======================= 关键帧 (keyframe) =======================
+       "home" 是出厂/常用初始姿态: 大臂竖直、肘部 90°, 三个腕关节使工具朝下,
+       即常见的"直立待命"位形(UR 示教器上的初始姿态)。
+       qpos 6 个值为 6 个关节角(rad), ctrl 6 个值给 6 个位置伺服的目标角。
+       两者写成相同数值, 是为了加载后用 mj_resetDataKeyframe 复位时机械臂"原地保持"该姿态,
+       不会因为控制器目标与当前位置不符而突然抽动。
+       使用方式: mujoco.viewer / simulate 中选择 key "home", 或代码中
+       mujoco.mj_resetDataKeyframe(model, data, 0) -->
+  <keyframe>
+    <key name="home" qpos="-1.5708 -1.5708 1.5708 -1.5708 -1.5708 0" ctrl="-1.5708 -1.5708 1.5708 -1.5708 -1.5708 0"/>
+  </keyframe>
+</mujoco>

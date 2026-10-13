@@ -1,0 +1,10 @@
+<mujoco model="ur5e_press">
+  <include file="ur5e.xml"/>
+  <worldbody>
+    <light pos="0 0 3"/>
+    <geom name="floor" type="plane" size="1.2 1.2 0.05"/>
+  </worldbody>
+  <sensor>
+    <force site="attachment_site"/>
+  </sensor>
+</mujoco>

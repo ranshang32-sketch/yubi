@@ -1,0 +1,29 @@
+<!-- 由 urdf_转_mjcf.py 生成；以下为 URDF 表达不了、需手工确认的量 -->
+<!-- j1: 相电阻 R = 0.35 Ω（mujoco 3.13.0 无法写入 dcmotor） -->
+<!-- j2: 相电阻 R = 0.35 Ω（mujoco 3.13.0 无法写入 dcmotor） -->
+<!-- j3: 相电阻 R = 0.85 Ω（mujoco 3.13.0 无法写入 dcmotor） -->
+<mujoco model="six_dof_demo">
+  <compiler angle="radian"/>
+
+  <worldbody>
+    <geom size="0.08 0.03" type="cylinder"/>
+    <body name="link1" pos="0 0 0.06">
+      <inertial pos="0 0 0.15" mass="1.8" diaginertia="0.006 0.006 0.0009"/>
+      <joint name="j1" range="-3.05 3.05" actuatorfrcrange="-80 80" armature="0.02" damping="0.8 0.8 0.8" frictionloss="0.3"/>
+      <body name="link2" pos="0 0 0.3" quat="0.707105 0 0.707108 0">
+        <inertial pos="0 0 0.13" mass="1.4" diaginertia="0.004 0.004 0.0007"/>
+        <joint name="j2" range="-2 2" actuatorfrcrange="-80 80" armature="0.015" damping="0.6 0.6 0.6" frictionloss="0.25"/>
+        <body name="link3" pos="0 0 0.26">
+          <inertial pos="0 0 0.1" mass="1.1" diaginertia="0.003 0.003 0.0005"/>
+          <joint name="j3" range="-2.8 2.8" actuatorfrcrange="-40 40" armature="0.008" damping="0.4 0.4 0.4" frictionloss="0.2"/>
+        </body>
+      </body>
+    </body>
+  </worldbody>
+
+  <actuator>
+    <general name="j1_motor" joint="j1" actlimited="false" gear="100" dynprm="0" actearly="true" gainprm="1.9 1.9"/>
+    <general name="j2_motor" joint="j2" actlimited="false" gear="100" dynprm="0" actearly="true" gainprm="1.9 1.9"/>
+    <general name="j3_motor" joint="j3" actlimited="false" gear="50" dynprm="0" actearly="true" gainprm="0.95 0.95"/>
+  </actuator>
+</mujoco>
